@@ -1,0 +1,17 @@
+{
+  "name": "task-planning-app",
+  "version": "1.0.0",
+  "description": "Task Planning Web Application",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": ["task-management", "spa", "vanilla-js"],
+  "author": "Team 3",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5"
+  }
+}

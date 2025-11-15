@@ -1,0 +1,45 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "Admin User",
+      "email": "admin@task.com",
+      "password": "admin123",
+      "role": "admin",
+      "managerId": null
+    },
+    {
+      "id": 2,
+      "name": "John Manager",
+      "email": "john@task.com",
+      "password": "pass123",
+      "role": "manager",
+      "managerId": null
+    },
+    {
+      "id": 3,
+      "name": "Jane Employee",
+      "email": "jane@task.com",
+      "password": "pass123",
+      "role": "employee",
+      "managerId": 2
+    },
+    {
+      "id": 4,
+      "name": "test",
+      "email": "test@email.com",
+      "password": "pass123",
+      "role": "employee",
+      "managerId": null
+    },
+    {
+      "id": 5,
+      "name": "abc",
+      "email": "abc@e.c",
+      "password": "pass123",
+      "role": "employee",
+      "managerId": 2
+    }
+  ],
+  "tasks": []
+}

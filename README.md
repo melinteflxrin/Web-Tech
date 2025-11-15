@@ -1,53 +1,204 @@
-# Web-Tech
+# Task Planning Web Application
 
-## Task Planning Web Application
+A web application for task planning, allocation, and monitoring built with vanilla JavaScript and Node.js/Express.
 
-### Objective
-Implement a web application for task planning, allocation, and monitoring.
+## 🚀 Quick Start
 
-### Detailed Specifications
+### Prerequisites
+- Node.js (v14 or higher)
+- npm (comes with Node.js)
 
-#### User Roles
-- **Administrator**: Adds users (managers or executing users).
-- **Manager**: Creates tasks, allocates tasks, monitors status, closes completed tasks, views user task history.
-- **Executing User**: Has an assigned manager, receives tasks, marks tasks as completed, views their own task history.
+### Installation & Running
 
-#### Core Features
-- User management (add users, assign roles, assign manager to users)
-- Task creation (by managers, with description, initial state OPEN)
-- Task allocation (manager assigns to user, state becomes PENDING)
-- Task status updates (user marks as COMPLETED, manager marks as CLOSED)
-- Task history (users and managers can view history)
+1. **Install dependencies:**
+   ```bash
+   cd server
+   npm install
+   ```
 
-#### Task States
-- **OPEN** → **PENDING** → **COMPLETED** → **CLOSED**
+2. **Start the server:**
+   ```bash
+   npm start
+   ```
+   Server will run on `http://localhost:3000`
 
-#### Accessibility
-- Single Page Application (SPA)
-- Responsive: desktop, mobile, tablet
+3. **Open the app:**
+   - Open your browser and go to `http://localhost:3000`
+   - Use one of the demo accounts to login:
+     - **Admin:** admin@task.com / admin123
+     - **Manager:** john@task.com / pass123
+     - **Employee:** jane@task.com / pass123
 
 ---
 
-### Project Plan
+## 📁 Project Structure
 
-#### Milestones
-1. **Project Setup**
-	- Initialize Git repository
-	- Set up project structure (frontend SPA, backend API if needed)
-	- Add README with project description
-2. **User Management**
-	- Admin can add users and assign roles
-	- Assign manager to executing users
-3. **Task Management**
-	- Managers can create tasks (OPEN)
-	- Managers can allocate tasks (PENDING)
-	- Users can view and complete tasks (COMPLETED)
-	- Managers can close tasks (CLOSED)
-4. **Task History**
-	- Users and managers can view task history
-5. **UI/UX**
-	- Responsive SPA interface
-6. **Testing & Documentation**
+```
+Web-Tech/
+├── server/
+│   ├── server.js          # Express server & API endpoints
+│   ├── data.json          # JSON database (users & tasks)
+│   └── package.json       # Dependencies
+├── public/
+│   ├── index.html         # Main HTML file
+│   ├── css/
+│   │   └── styles.css     # Global styles
+│   └── js/
+│       ├── app.js         # SPA routing & navigation
+│       ├── auth.js        # Login/logout functionality
+│       ├── admin.js       # User management (admin)
+│       ├── manager.js     # TODO: Task management (Andrei)
+│       └── employee.js    # TODO: Employee tasks (Florin)
+└── README.md
+```
+
+---
+
+## 🎯 Features & User Roles
+
+### Administrator
+- ✅ Add, view, and delete users
+- ✅ Assign roles (admin, manager, employee)
+- ✅ Assign managers to employees
+
+### Manager (Andrei)
+- ⏳ Create tasks (state: OPEN)
+- ⏳ Allocate tasks to employees (state: PENDING)
+- ⏳ View all tasks and their statuses
+- ⏳ Close completed tasks (state: CLOSED)
+- ⏳ View task history for employees
+
+### Employee (Florin)
+- ⏳ View assigned tasks
+- ⏳ Mark tasks as completed (state: COMPLETED)
+- ⏳ View personal task history
+
+### Task States
+**OPEN** → **PENDING** → **COMPLETED** → **CLOSED**
+
+---
+
+## 🔧 API Endpoints
+
+### User Management (Alex)
+- `POST /api/login` - Authenticate user
+- `GET /api/users` - Get all users
+- `GET /api/users/:id` - Get user by ID
+- `POST /api/users` - Create new user
+- `PUT /api/users/:id` - Update user
+- `DELETE /api/users/:id` - Delete user
+- `GET /api/managers` - Get all managers
+
+### Task Management (Florin & Andrei - TODO)
+- `POST /api/tasks` - Create task
+- `GET /api/tasks` - Get all tasks
+- `GET /api/tasks/user/:userId` - Get tasks for user
+- `PUT /api/tasks/:id/assign` - Assign task to user
+- `PUT /api/tasks/:id/complete` - Mark task as completed
+- `PUT /api/tasks/:id/close` - Close completed task
+- `GET /api/tasks/history/:userId` - Get task history
+
+---
+
+## 👥 Team Responsibilities
+
+### Alex (Completed)
+- ✅ Project setup (Node.js, Express, file structure)
+- ✅ User authentication (login/logout)
+- ✅ User management (admin dashboard)
+- ✅ SPA routing and navigation
+- ✅ Responsive UI foundation
+
+### Andrei (TODO)
+- Manager task management interface
+- Task creation and allocation
+- Task status monitoring
+- Task history views for managers
+
+### Florin (TODO)
+- Employee task interface
+- Task completion functionality
+- Employee task history
+- Testing & documentation
+
+---
+
+## 💾 Database Structure
+
+The `server/data.json` file stores all data:
+
+```json
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "User Name",
+      "email": "user@example.com",
+      "password": "password",
+      "role": "admin|manager|employee",
+      "managerId": null or number
+    }
+  ],
+  "tasks": []
+}
+```
+
+---
+
+## 🎨 Technology Stack
+
+- **Frontend:** Vanilla JavaScript, HTML5, CSS3
+- **Backend:** Node.js, Express.js
+- **Database:** JSON file storage
+- **Architecture:** Single Page Application (SPA)
+
+---
+
+## 📝 Development Notes
+
+### For Florin & Andrei
+
+1. **Adding new pages:**
+   - Create your JS file in `public/js/`
+   - Add route case in `app.js` switch statement
+   - Create render function (e.g., `renderTasksPage()`)
+
+2. **Using the API:**
+   - Base URL: `const API_URL = 'http://localhost:3000/api'`
+   - Use `fetch()` for all API calls
+   - Check `auth.js` and `admin.js` for examples
+
+3. **Getting current user:**
+   ```javascript
+   const user = getCurrentUser(); // From auth.js
+   ```
+
+4. **Adding styles:**
+   - Add your CSS to `public/css/styles.css`
+   - Follow existing naming conventions
+
+5. **Testing:**
+   - Test with all three user roles
+   - Ensure responsive design (mobile/tablet/desktop)
+
+---
+
+## 🐛 Troubleshooting
+
+**Server won't start:**
+- Make sure you're in the `server/` directory
+- Run `npm install` first
+- Check if port 3000 is already in use
+
+**Login doesn't work:**
+- Verify server is running on http://localhost:3000
+- Check browser console for errors
+- Make sure `data.json` exists in `server/` folder
+
+**Changes not appearing:**
+- Hard refresh browser (Ctrl+F5)
+- Clear browser cache
+- Restart the server
 	- Test core flows
 	- Update documentation
 
