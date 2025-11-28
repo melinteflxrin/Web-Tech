@@ -201,16 +201,235 @@ app.get('/api/managers', async (req, res) => {
   res.json(managers);
 });
 
-// ===== TASK MANAGEMENT ENDPOINTS (Florin & Andrei) =====
-// TODO: Florin & Andrei will add task-related endpoints here
-// Example endpoints needed:
-// - POST /api/tasks (create task - Manager)
-// - GET /api/tasks (get all tasks - Manager)
-// - PUT /api/tasks/:id/assign (assign task - Manager)
-// - PUT /api/tasks/:id/complete (complete task - Employee)
-// - PUT /api/tasks/:id/close (close task - Manager)
-// - GET /api/tasks/user/:userId (get tasks for specific user)
-// - GET /api/tasks/history/:userId (get task history)
+// ===== TASK MANAGEMENT ENDPOINTS (Andrei) =====
+
+/**
+ * POST /api/tasks
+ * Creates a new task
+ * Body: { title, description, dueDate, priority, createdBy, state }
+ * Returns: Created task object
+ */
+app.post('/api/tasks', async (req, res) => {
+  const { title, description, dueDate, priority, createdBy, state } = req.body;
+
+  if (!title || !description || !createdBy) {
+    return res.status(400).json({ error: 'Title, description, and createdBy are required' });
+  }
+
+  const data = await readData();
+
+  // Create new task
+  const newTask = {
+    id: data.tasks.length > 0 ? Math.max(...data.tasks.map(t => t.id)) + 1 : 1,
+    title,
+    description,
+    dueDate: dueDate || null,
+    priority: priority || 'MEDIUM',
+    createdBy,
+    state: state || 'OPEN',
+    assignedTo: null,
+    assignedToName: null,
+    createdAt: new Date().toISOString(),
+    completedAt: null
+  };
+
+  data.tasks.push(newTask);
+  await writeData(data);
+
+  res.status(201).json(newTask);
+});
+
+/**
+ * GET /api/tasks
+ * Returns all tasks
+ * Returns: Array of task objects
+ */
+app.get('/api/tasks', async (req, res) => {
+  const data = await readData();
+  res.json(data.tasks || []);
+});
+
+/**
+ * GET /api/tasks/user/:userId
+ * Returns all tasks assigned to a specific user
+ * Returns: Array of task objects
+ * NOTE: This must come before GET /api/tasks/:id
+ */
+app.get('/api/tasks/user/:userId', async (req, res) => {
+  const userId = parseInt(req.params.userId);
+  const data = await readData();
+
+  const userTasks = data.tasks.filter(t => t.assignedTo === userId);
+  res.json(userTasks);
+});
+
+/**
+ * GET /api/tasks/history/:userId
+ * Returns task history for a specific manager
+ * Shows all tasks created by this manager
+ * Returns: Array of task objects
+ * NOTE: This must come before GET /api/tasks/:id
+ */
+app.get('/api/tasks/history/:userId', async (req, res) => {
+  const userId = parseInt(req.params.userId);
+  const data = await readData();
+
+  const taskHistory = data.tasks.filter(t => t.createdBy === userId);
+  res.json(taskHistory);
+});
+
+/**
+ * GET /api/tasks/:id
+ * Returns a specific task by ID
+ * Returns: Task object
+ * NOTE: This comes after specific routes like /user/:userId and /history/:userId
+ */
+app.get('/api/tasks/:id', async (req, res) => {
+  const taskId = parseInt(req.params.id);
+  const data = await readData();
+
+  const task = data.tasks.find(t => t.id === taskId);
+
+  if (!task) {
+    return res.status(404).json({ error: 'Task not found' });
+  }
+
+  res.json(task);
+});
+
+/**
+ * PUT /api/tasks/:id/assign
+ * Assigns a task to an employee
+ * Body: { assignedTo, state }
+ * Returns: Updated task object
+ */
+app.put('/api/tasks/:id/assign', async (req, res) => {
+  const taskId = parseInt(req.params.id);
+  const { assignedTo, state } = req.body;
+
+  if (!assignedTo) {
+    return res.status(400).json({ error: 'assignedTo is required' });
+  }
+
+  const data = await readData();
+  const taskIndex = data.tasks.findIndex(t => t.id === taskId);
+
+  if (taskIndex === -1) {
+    return res.status(404).json({ error: 'Task not found' });
+  }
+
+  // Get employee name
+  const employee = data.users.find(u => u.id === parseInt(assignedTo));
+  const employeeName = employee ? employee.name : 'Unknown';
+
+  // Update task
+  data.tasks[taskIndex].assignedTo = parseInt(assignedTo);
+  data.tasks[taskIndex].assignedToName = employeeName;
+  if (state) {
+    data.tasks[taskIndex].state = state;
+  }
+
+  await writeData(data);
+  res.json(data.tasks[taskIndex]);
+});
+
+/**
+ * PUT /api/tasks/:id/complete
+ * Marks a task as completed
+ * Body: { state }
+ * Returns: Updated task object
+ */
+app.put('/api/tasks/:id/complete', async (req, res) => {
+  const taskId = parseInt(req.params.id);
+  const { state } = req.body;
+
+  const data = await readData();
+  const taskIndex = data.tasks.findIndex(t => t.id === taskId);
+
+  if (taskIndex === -1) {
+    return res.status(404).json({ error: 'Task not found' });
+  }
+
+  // Update task
+  data.tasks[taskIndex].state = state || 'COMPLETED';
+  data.tasks[taskIndex].completedAt = new Date().toISOString();
+
+  await writeData(data);
+  res.json(data.tasks[taskIndex]);
+});
+
+/**
+ * PUT /api/tasks/:id/close
+ * Closes a completed task
+ * Body: { state }
+ * Returns: Updated task object
+ */
+app.put('/api/tasks/:id/close', async (req, res) => {
+  const taskId = parseInt(req.params.id);
+  const { state } = req.body;
+
+  const data = await readData();
+  const taskIndex = data.tasks.findIndex(t => t.id === taskId);
+
+  if (taskIndex === -1) {
+    return res.status(404).json({ error: 'Task not found' });
+  }
+
+  // Update task
+  data.tasks[taskIndex].state = state || 'CLOSED';
+
+  await writeData(data);
+  res.json(data.tasks[taskIndex]);
+});
+
+/**
+ * DELETE /api/tasks/:id
+ * Deletes a task
+ * Returns: Success message
+ */
+app.delete('/api/tasks/:id', async (req, res) => {
+  const taskId = parseInt(req.params.id);
+  const data = await readData();
+
+  const taskIndex = data.tasks.findIndex(t => t.id === taskId);
+
+  if (taskIndex === -1) {
+    return res.status(404).json({ error: 'Task not found' });
+  }
+
+  data.tasks.splice(taskIndex, 1);
+  await writeData(data);
+
+  res.json({ message: 'Task deleted successfully' });
+});
+
+/**
+ * PUT /api/tasks/:id
+ * Updates a task
+ * Body: { title, description, dueDate, priority, state }
+ * Returns: Updated task object
+ */
+app.put('/api/tasks/:id', async (req, res) => {
+  const taskId = parseInt(req.params.id);
+  const { title, description, dueDate, priority, state } = req.body;
+
+  const data = await readData();
+  const taskIndex = data.tasks.findIndex(t => t.id === taskId);
+
+  if (taskIndex === -1) {
+    return res.status(404).json({ error: 'Task not found' });
+  }
+
+  // Update task fields
+  if (title) data.tasks[taskIndex].title = title;
+  if (description) data.tasks[taskIndex].description = description;
+  if (dueDate) data.tasks[taskIndex].dueDate = dueDate;
+  if (priority) data.tasks[taskIndex].priority = priority;
+  if (state) data.tasks[taskIndex].state = state;
+
+  await writeData(data);
+  res.json(data.tasks[taskIndex]);
+});
 
 // Start server
 app.listen(PORT, () => {

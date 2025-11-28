@@ -46,19 +46,26 @@ function loadApp() {
       }
       break;
     
+    case 'manager':
+      // Only managers can access manager page
+      if (user && user.role === 'manager') {
+        renderManagerPage();
+      } else {
+        alert('Access denied. Manager privileges required.');
+        window.location.hash = '#dashboard';
+      }
+      break;
+    
     case 'dashboard':
       renderDashboard();
       break;
     
-    // TODO: Florin & Andrei will add more routes here
-    // case 'tasks':
-    //   renderTasksPage(); (Andrei)
-    //   break;
+    // TODO: Florin will add more routes here
     // case 'my-tasks':
     //   renderMyTasksPage(); (Florin)
     //   break;
     // case 'history':
-    //   renderHistoryPage(); (Andrei & 3)
+    //   renderHistoryPage(); (Florin)
     //   break;
     
     default:
@@ -89,7 +96,7 @@ function renderDashboard() {
         <h2 style="font-size: 1.2rem; margin-bottom: 1rem;">Quick Links</h2>
         <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
           ${user.role === 'admin' ? '<a href="#admin" class="btn btn-primary">User Management</a>' : ''}
-          ${user.role === 'manager' ? '<!-- Andrei: Add manager links here -->' : ''}
+          ${user.role === 'manager' ? '<a href="#manager" class="btn btn-primary">Task Management</a>' : ''}
           ${user.role === 'employee' ? '<!-- Florin: Add employee links here -->' : ''}
         </div>
       </div>

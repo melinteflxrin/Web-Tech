@@ -247,6 +247,135 @@ tbody tr {
 .gap-1 { gap: 0.5rem; }
 .gap-2 { gap: 1rem; }
 
+/* ===== MANAGER DASHBOARD STYLES (Andrei) ===== */
+.manager-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.manager-tabs {
+  display: flex;
+  gap: 0.5rem;
+  margin: 1.5rem 0;
+  border-bottom: 2px solid #ddd;
+  flex-wrap: wrap;
+}
+
+.tab-btn {
+  padding: 0.75rem 1.5rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  color: #666;
+  border-bottom: 3px solid transparent;
+  transition: all 0.3s ease;
+  font-weight: 500;
+}
+
+.tab-btn:hover {
+  color: #3498db;
+}
+
+.tab-btn.active {
+  color: #3498db;
+  border-bottom-color: #3498db;
+}
+
+.tasks-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.task-state-section {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 4px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.task-state-section h2 {
+  margin-top: 0;
+}
+
+.tasks-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.task-card {
+  background: #fff;
+  border-radius: 4px;
+  padding: 1.2rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.task-card:hover {
+  box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+  transform: translateY(-2px);
+}
+
+.task-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 0.75rem;
+  gap: 1rem;
+}
+
+.task-card-header h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  color: #333;
+  flex: 1;
+}
+
+.task-badge {
+  padding: 0.4rem 0.8rem;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+.task-description {
+  color: #666;
+  font-size: 0.95rem;
+  margin: 0.75rem 0;
+  line-height: 1.5;
+  flex-grow: 1;
+}
+
+.task-meta {
+  background: #f9f9f9;
+  padding: 0.75rem;
+  border-radius: 3px;
+  margin: 0.75rem 0;
+  font-size: 0.9rem;
+}
+
+.task-meta p {
+  margin: 0.4rem 0;
+  color: #555;
+}
+
+.task-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  flex-wrap: wrap;
+}
+
+.btn-small {
+  padding: 0.5rem 0.8rem;
+  font-size: 0.85rem;
+}
+
 /* ===== RESPONSIVE DESIGN ===== */
 @media (max-width: 768px) {
   .nav-container {
@@ -270,13 +399,40 @@ tbody tr {
     margin: 20px;
     padding: 1.5rem;
   }
+
+  .manager-tabs {
+    flex-direction: column;
+    border-bottom: none;
+  }
+
+  .tab-btn {
+    border-bottom: none;
+    border-left: 3px solid transparent;
+    text-align: left;
+  }
+
+  .tab-btn.active {
+    border-left-color: #3498db;
+    border-bottom: none;
+  }
+
+  .tasks-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .task-actions {
+    flex-direction: column;
+  }
+
+  .btn-small {
+    width: 100%;
+  }
 }
 
-/* ===== TASK STYLES (Florin & Andrei) ===== */
-/* TODO: Florin & Andrei will add task-specific styles here */
+/* ===== TASK STYLES (Florin) ===== */
+/* TODO: Florin will add employee task-specific styles here */
 /* Example classes you might need:
- * - .task-card
- * - .task-status-badge
- * - .task-list
- * - .task-filters
+ * - .my-tasks-section
+ * - .task-completion-form
+ * - .employee-history
  */

@@ -47,7 +47,7 @@ Web-Tech/
 │       ├── app.js         # SPA routing & navigation
 │       ├── auth.js        # Login/logout functionality
 │       ├── admin.js       # User management (admin)
-│       ├── manager.js     # TODO: Task management (Andrei)
+│       ├── manager.js     # ✅ Task management (Andrei)
 │       └── employee.js    # TODO: Employee tasks (Florin)
 └── README.md
 ```
@@ -62,11 +62,11 @@ Web-Tech/
 - ✅ Assign managers to employees
 
 ### Manager (Andrei)
-- ⏳ Create tasks (state: OPEN)
-- ⏳ Allocate tasks to employees (state: PENDING)
-- ⏳ View all tasks and their statuses
-- ⏳ Close completed tasks (state: CLOSED)
-- ⏳ View task history for employees
+- ✅ Create tasks (state: OPEN)
+- ✅ Allocate tasks to employees (state: PENDING)
+- ✅ View all tasks and their statuses
+- ✅ Close completed tasks (state: CLOSED)
+- ✅ View task history for employees
 
 ### Employee (Florin)
 - ⏳ View assigned tasks
@@ -89,7 +89,7 @@ Web-Tech/
 - `DELETE /api/users/:id` - Delete user
 - `GET /api/managers` - Get all managers
 
-### Task Management (Florin & Andrei - TODO)
+### Task Management (Andrei - Completed)
 - `POST /api/tasks` - Create task
 - `GET /api/tasks` - Get all tasks
 - `GET /api/tasks/user/:userId` - Get tasks for user
@@ -109,11 +109,12 @@ Web-Tech/
 - ✅ SPA routing and navigation
 - ✅ Responsive UI foundation
 
-### Andrei (TODO)
-- Manager task management interface
-- Task creation and allocation
-- Task status monitoring
-- Task history views for managers
+### Andrei (Completed)
+- ✅ Manager task management interface
+- ✅ Task creation and allocation
+- ✅ Task status monitoring
+- ✅ Task history views for managers
+- ✅ Task state transitions (OPEN → PENDING → COMPLETED → CLOSED)
 
 ### Florin (TODO)
 - Employee task interface

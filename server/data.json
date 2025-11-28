@@ -41,5 +41,32 @@
       "managerId": 2
     }
   ],
-  "tasks": []
+  "tasks": [
+    {
+      "id": 1,
+      "title": "dadda",
+      "description": "florin",
+      "dueDate": "2025-10-30",
+      "priority": "MEDIUM",
+      "createdBy": 2,
+      "state": "PENDING",
+      "assignedTo": 4,
+      "assignedToName": "test",
+      "createdAt": "2025-11-28T11:47:19.979Z",
+      "completedAt": null
+    },
+    {
+      "id": 3,
+      "title": "dad",
+      "description": "da",
+      "dueDate": "2025-11-05",
+      "priority": "MEDIUM",
+      "createdBy": 2,
+      "state": "OPEN",
+      "assignedTo": null,
+      "assignedToName": null,
+      "createdAt": "2025-11-28T11:52:23.574Z",
+      "completedAt": null
+    }
+  ]
 }
