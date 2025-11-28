@@ -47,7 +47,7 @@ Web-Tech/
 │       ├── app.js         # SPA routing & navigation
 │       ├── auth.js        # Login/logout functionality
 │       ├── admin.js       # User management (admin)
-│       ├── manager.js     # ✅ Task management (Andrei)
+│       ├── manager.js     # Task management (Andrei)
 │       └── employee.js    # TODO: Employee tasks (Florin)
 └── README.md
 ```
