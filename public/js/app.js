@@ -60,13 +60,15 @@ function loadApp() {
       renderDashboard();
       break;
     
-    // TODO: Florin will add more routes here
-    // case 'my-tasks':
-    //   renderMyTasksPage(); (Florin)
-    //   break;
-    // case 'history':
-    //   renderHistoryPage(); (Florin)
-    //   break;
+    case 'employee':
+      // Only employees can access employee page
+      if (user && user.role === 'employee') {
+        renderEmployeePage();
+      } else {
+        alert('Access denied. Employee privileges required.');
+        window.location.hash = '#dashboard';
+      }
+      break;
     
     default:
       renderDashboard();
@@ -97,19 +99,20 @@ function renderDashboard() {
         <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
           ${user.role === 'admin' ? '<a href="#admin" class="btn btn-primary">User Management</a>' : ''}
           ${user.role === 'manager' ? '<a href="#manager" class="btn btn-primary">Task Management</a>' : ''}
-          ${user.role === 'employee' ? '<!-- Florin: Add employee links here -->' : ''}
+          ${user.role === 'employee' ? '<a href="#employee" class="btn btn-primary">My Tasks</a>' : ''}
         </div>
       </div>
 
+      ${user.role === 'employee' ? `
       <div class="mt-3">
         <div class="card" style="background-color: #e8f4f8; border-left: 4px solid #3498db;">
-          <h3 style="font-size: 1rem; margin-bottom: 0.5rem;">📝 For Teammates</h3>
+          <h3 style="font-size: 1rem; margin-bottom: 0.5rem;">📋 Your Task Summary</h3>
           <p style="font-size: 0.9rem; margin: 0;">
-            <strong>Andrei (Manager):</strong> Add task management, task creation, and task history views here.<br>
-            <strong>Florin (Employee):</strong> Add "My Tasks" page, task completion functionality, and task history here.
+            Go to <strong>My Tasks</strong> to view your assigned tasks, mark them as completed, and check your task history.
           </p>
         </div>
       </div>
+      ` : ''}
     </div>
   `;
 }
